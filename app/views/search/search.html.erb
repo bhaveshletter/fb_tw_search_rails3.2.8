@@ -1,0 +1,52 @@
+<div id="loading">
+</div>
+
+<div class="display_cls"> 
+  Search from Facebook and Twitter 
+</div>
+
+<div class="margin_cls">	
+  <fieldset class="format_cls">
+    <%= text_field_tag :search, "", :placeholder => 'Search' %>
+  </fieldset>
+</div>
+<hr />
+
+<div id="fb_tw">
+  <div class="display_cls"> 
+    Result not found!!
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  $("#search").live("keypress", function(e) {
+    var search_cont;
+    search_cont = $(this).val();
+    if (e.keyCode === 13 && $.trim(search_cont)) {
+      ajax_call(search_cont, 0, 0);
+    }
+  });
+
+  function ajax_call(search_cont, prev, next){
+      return $.ajax({
+        url: "/",
+        data: { search_cont: search_cont, prev: prev, next: next },
+        beforeSend: function(jqXHR, settings) {
+          return $("#loading").show();
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          return alert(errorThrown);
+        },
+        complete: function(jqXHR, textStatus) {
+          $("#loading").hide();
+          return $("#search").focus();
+        }
+      });
+  }
+  
+  function paginate(prev, next){
+    ajax_call($.trim($("#search").val()), prev, next);
+  }
+
+</script>

@@ -1,0 +1,6 @@
+<h1> Search from Facebook and Twitter </h1>
+<fieldset style="padding-bottom: 7px; width: 0;">
+  <%= text_field_tag :search, "", :placeholder => 'search' %>
+</fieldset>
+<hr />
+

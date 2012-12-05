@@ -1,0 +1,66 @@
+<% if @fb_search["data"].blank? and @tw_search["results"].blank?  %>
+  <div class="display_cls">
+    Result not found!!
+  </div>
+<% else %>
+  <table>
+    <tr>
+      <th>
+        From User
+      </th>
+      <th>
+        Full Name/Link
+      </th>
+      <th>
+        Image
+      </th>
+      <th>
+        Description
+      </th>
+    </tr>
+    <% unless @tw_search["results"].blank? %>
+      <% @tw_search["results"].each do |tw| %>
+        <tr>
+          <td>
+            <%= tw["from_user"] %>
+          </td>
+          <td>
+            <%= tw["from_user_name"] %>
+          </td>
+          <td>
+            <%= link_to(image_tag(tw["profile_image_url"]), tw["profile_image_url"], :target => "_blank") unless tw["profile_image_url"].nil?  %>
+          </td>
+          <td>
+            <%= tw["text"] %>
+            <%= link_to 'more', tw["text"][tw["text"].index('http://'), 20], :target => "_blank" unless tw["text"].index('http://').nil? %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+    <% unless @fb_search["data"].blank? %>
+      <% @fb_search["data"].each do |fb| %>
+        <tr>
+          <td>
+            <%= fb["from"]["name"] %>
+          </td>
+          <td>
+            <%= link_to fb["from"]["name"], fb["link"], :target => "_blank" %>
+          </td>
+          <td>
+            <%= link_to(image_tag(fb["picture"], :height => "48", :width => "48"), fb["picture"], :target => "_blank") unless fb["picture"].nil? %>
+          </td>
+          <td>
+            <%= fb["descrption"].nil? ? truncate(fb["caption"], :length => 130) : truncate(fb["descrption"], :lenght => 130) %>
+            <%= link_to "more", fb["link"], :target => "_blank" %>
+          </td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+
+  <hr />
+  <div class="display_cls">
+    <%= link_to_function "Prev", "paginate(#{@pg.to_i-1}, 0)" if @pg.to_i > 1 %>
+    <%= link_to_function "Next", "paginate(0, #{@pg.to_i})" %>
+  </div>
+<% end %>
