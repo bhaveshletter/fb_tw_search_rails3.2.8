@@ -19,7 +19,7 @@
 </div>
 
 <script type="text/javascript">
-
+/* when user press enter or focus out from search input */
   $("#search").live("keypress", function(e) {
     var search_cont;
     search_cont = $(this).val();
@@ -28,6 +28,7 @@
     }
   });
 
+/* ajax call to retrieve data from facebook or twitter with custome pagination options */
   function ajax_call(search_cont, prev, next){
       return $.ajax({
         url: "/",
@@ -45,6 +46,7 @@
       });
   }
   
+/* Custom pagination */
   function paginate(prev, next){
     ajax_call($.trim($("#search").val()), prev, next);
   }
